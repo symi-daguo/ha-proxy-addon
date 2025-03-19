@@ -1,3 +1,39 @@
 name: "HA Proxy Add-on Repository"
 url: "https://github.com/symi-daguo/ha-proxy-addon"
-maintainer: "symi-daguo" 
+maintainer: "symi-daguo"
+version: "1.0.0"
+addons:
+  - slug: "proxy_service"
+    name: "代理服务"
+    version: "1.0.0"
+    description: "临时代理服务，用于远程升级Home Assistant"
+    long_description: "这是一个用于Home Assistant的代理服务插件，支持Clash和Shadowrocket订阅地址，提供HTTP和SOCKS代理服务。"
+    repository: "https://github.com/symi-daguo/ha-proxy-addon"
+    webui: "http://[HOST]:[PORT:7890]"
+    init: false
+    startup: application
+    boot: manual
+    ports:
+      7890/tcp: 7890
+      7890/udp: 7890
+      7891/tcp: 7891
+      7891/udp: 7891
+    ports_description:
+      7890/tcp: "HTTP代理端口"
+      7890/udp: "HTTP代理端口"
+      7891/tcp: "SOCKS代理端口"
+      7891/udp: "SOCKS代理端口"
+    options:
+      subscription_type: "clash"
+      subscription_url: ""
+      clear_config: true
+    schema:
+      subscription_type: "list(clash|shadowrocket)"
+      subscription_url: "str"
+      clear_config: "bool"
+    arch:
+      - armhf
+      - armv7
+      - aarch64
+      - amd64
+      - i386 

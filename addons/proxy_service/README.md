@@ -71,8 +71,4 @@
 ### 1.0.0
 - 初始版本发布
 - 支持Clash和Shadowrocket订阅
-- 提供HTTP和SOCKS代理服务
-
-## 技术支持
-
-如需帮助，请参考：[new-pac GitHub Wiki](https://github.com/Alvin9999/new-pac/wiki) 
+- 提供HTTP和SOCKS代理服务 
