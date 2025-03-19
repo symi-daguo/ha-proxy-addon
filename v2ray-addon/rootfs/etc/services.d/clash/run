@@ -1,0 +1,93 @@
+#!/usr/bin/with-contenv bashio
+set -e
+
+# 从选项中获取配置
+SUBSCRIPTION_TYPE=$(bashio::config 'subscription_type')
+SUBSCRIPTION_URL=$(bashio::config 'subscription_url')
+CLEAR_CONFIG=$(bashio::config 'clear_config')
+
+# 如果订阅地址为空，则显示错误并退出
+if [ -z "$SUBSCRIPTION_URL" ]; then
+    bashio::log.error "请在插件配置中设置订阅地址"
+    exit 1
+fi
+
+CONFIG_DIR="/root/.config/clash"
+CONFIG_FILE="${CONFIG_DIR}/config.yaml"
+
+# 下载配置文件
+if [ "$SUBSCRIPTION_TYPE" = "clash" ]; then
+    # 直接下载Clash配置
+    bashio::log.info "正在下载Clash配置..."
+    curl -L -o "$CONFIG_FILE" "$SUBSCRIPTION_URL"
+else
+    # 下载Shadowrocket配置并转换
+    bashio::log.info "正在下载并转换Shadowrocket配置..."
+    TMP_FILE="${CONFIG_DIR}/tmp.txt"
+    curl -L -o "$TMP_FILE" "$SUBSCRIPTION_URL"
+    
+    # 解码base64配置
+    base64 -d "$TMP_FILE" > "${TMP_FILE}.decoded"
+    
+    # 转换为Clash配置
+    {
+        echo "mixed-port: 7890"
+        echo "allow-lan: true"
+        echo "mode: rule"
+        echo "log-level: info"
+        echo "external-controller: 127.0.0.1:9090"
+        echo "proxies:"
+        
+        # 解析Shadowrocket配置并转换为Clash格式
+        while IFS= read -r line; do
+            if [[ $line == vmess://* ]]; then
+                # 提取vmess链接并转换
+                vmess_config=$(echo "${line#vmess://}" | base64 -d)
+                name=$(echo "$vmess_config" | jq -r '.ps // .name')
+                server=$(echo "$vmess_config" | jq -r '.add')
+                port=$(echo "$vmess_config" | jq -r '.port')
+                uuid=$(echo "$vmess_config" | jq -r '.id')
+                
+                echo "  - name: \"$name\""
+                echo "    type: vmess"
+                echo "    server: $server"
+                echo "    port: $port"
+                echo "    uuid: $uuid"
+                echo "    alterId: 0"
+                echo "    cipher: auto"
+                echo "    udp: true"
+            fi
+        done < "${TMP_FILE}.decoded"
+        
+        # 添加代理组
+        echo "proxy-groups:"
+        echo "  - name: 自动选择"
+        echo "    type: url-test"
+        echo "    proxies:"
+        while IFS= read -r line; do
+            if [[ $line == vmess://* ]]; then
+                vmess_config=$(echo "${line#vmess://}" | base64 -d)
+                name=$(echo "$vmess_config" | jq -r '.ps // .name')
+                echo "      - \"$name\""
+            fi
+        done < "${TMP_FILE}.decoded"
+        echo "    url: http://www.gstatic.com/generate_204"
+        echo "    interval: 300"
+        
+        # 添加规则
+        echo "rules:"
+        echo "  - MATCH,自动选择"
+        
+    } > "$CONFIG_FILE"
+    
+    # 清理临时文件
+    rm -f "$TMP_FILE" "${TMP_FILE}.decoded"
+fi
+
+# 打印连接信息
+bashio::log.info "代理服务已启动"
+bashio::log.info "HTTP代理端口: 7890"
+bashio::log.info "SOCKS代理端口: 7891"
+
+# 启动Clash
+exec /usr/local/bin/clash -d /root/.config/clash 

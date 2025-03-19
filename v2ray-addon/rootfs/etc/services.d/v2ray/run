@@ -1,0 +1,65 @@
+#!/usr/bin/with-contenv bashio
+set -e
+
+# 从选项中获取配置
+SERVER=$(bashio::config 'server')
+PORT=$(bashio::config 'port')
+ID=$(bashio::config 'id')
+ALTER_ID=$(bashio::config 'alterId')
+SECURITY=$(bashio::config 'security')
+NETWORK=$(bashio::config 'network')
+
+# 如果服务器地址为空，则显示错误并退出
+if [ -z "$SERVER" ]; then
+    bashio::log.error "请在插件配置中设置服务器地址"
+    exit 1
+fi
+
+# 创建配置文件目录
+mkdir -p /etc/v2ray
+
+# 生成配置文件
+cat > /etc/v2ray/config.json << EOF
+{
+    "inbounds": [
+        {
+            "port": 1080,
+            "listen": "0.0.0.0",
+            "protocol": "socks",
+            "settings": {
+                "udp": true
+            }
+        }
+    ],
+    "outbounds": [
+        {
+            "protocol": "vmess",
+            "settings": {
+                "vnext": [
+                    {
+                        "address": "${SERVER}",
+                        "port": ${PORT},
+                        "users": [
+                            {
+                                "id": "${ID}",
+                                "alterId": ${ALTER_ID},
+                                "security": "${SECURITY}"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "streamSettings": {
+                "network": "${NETWORK}"
+            }
+        }
+    ]
+}
+EOF
+
+# 打印连接信息
+bashio::log.info "V2Ray代理已启动，连接到服务器: ${SERVER}:${PORT}"
+bashio::log.info "SOCKS代理端口: 1080"
+
+# 启动V2Ray
+exec /usr/local/bin/v2ray -config /etc/v2ray/config.json 
