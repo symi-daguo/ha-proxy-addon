@@ -7,7 +7,7 @@
    - 进入 **配置** > **加载项** > **加载项商店**
    - 点击右上角的菜单按钮（三个点）
    - 选择 **存储库**
-   - 添加存储库URL：`https://github.com/你的用户名/ha-proxy-addon`
+   - 添加存储库URL：`https://github.com/symi-daguo/ha-proxy-addon`
    
 2. 安装插件：
    - 刷新页面
