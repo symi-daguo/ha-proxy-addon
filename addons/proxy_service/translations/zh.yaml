@@ -1,0 +1,16 @@
+configuration:
+  subscription_type:
+    name: 订阅类型
+    description: 选择 Clash 或 Shadowrocket 订阅
+  subscription_url:
+    name: 订阅地址
+    description: 你的代理订阅地址
+  clear_config:
+    name: 自动清理配置
+    description: 停止服务时自动清理配置文件
+
+network:
+  7890/tcp: HTTP代理端口
+  7890/udp: HTTP代理端口
+  7891/tcp: SOCKS代理端口
+  7891/udp: SOCKS代理端口 

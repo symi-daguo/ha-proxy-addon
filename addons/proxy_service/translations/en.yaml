@@ -1,0 +1,16 @@
+configuration:
+  subscription_type:
+    name: Subscription Type
+    description: Choose between Clash or Shadowrocket subscription
+  subscription_url:
+    name: Subscription URL
+    description: Your proxy subscription URL
+  clear_config:
+    name: Auto Clean Config
+    description: Automatically clean configuration when stopping the service
+
+network:
+  7890/tcp: HTTP proxy port
+  7890/udp: HTTP proxy port
+  7891/tcp: SOCKS proxy port
+  7891/udp: SOCKS proxy port 

@@ -3,12 +3,15 @@ version: "1.0.0"
 slug: "proxy_service"
 description: "临时代理服务，用于远程升级Home Assistant"
 url: "https://github.com/symi-daguo/ha-proxy-addon"
+codenotary: "symi-daguo"
 arch:
   - armhf
   - armv7
   - aarch64
   - amd64
   - i386
+homeassistant: "2023.1.0"
+homeassistant_api: true
 init: false
 startup: application
 boot: manual
@@ -39,10 +42,12 @@ schema:
   subscription_type: "list(clash|shadowrocket)"
   subscription_url: "str"
   clear_config: "bool"
+image: "ghcr.io/{arch}-proxy-service"
 hassio_api: true
 hassio_role: manager
 ingress: true
 ingress_port: 7890
 panel_icon: "mdi:earth"
 panel_title: "代理服务"
-webui: "http://[HOST]:[PORT:7890]" 
+webui: "http://[HOST]:[PORT:7890]"
+version_regex: !secret "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$" 
