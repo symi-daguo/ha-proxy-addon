@@ -1,0 +1,19 @@
+#!/usr/bin/with-contenv bashio
+set -e
+
+# 检查是否需要清理配置
+CLEAR_CONFIG=$(bashio::config 'clear_config')
+
+if [ "$CLEAR_CONFIG" = "true" ]; then
+    CONFIG_DIR="/root/.config/clash"
+    CONFIG_FILE="${CONFIG_DIR}/config.yaml"
+    
+    # 清理配置文件
+    bashio::log.info "正在清理Clash配置..."
+    rm -f "$CONFIG_FILE"
+    
+    bashio::log.info "配置清理完成"
+fi
+
+# 正常退出
+exit 0
