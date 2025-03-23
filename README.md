@@ -1,26 +1,26 @@
-# Home Assistant 代理服务插件仓库
+# Home Assistant Add-on: Proxy Service
 
-这是一个用于 Home Assistant 的代理服务插件仓库，提供以下功能：
+[![Open your Home Assistant instance and show the add add-on repository dialog with a specific repository URL pre-filled.](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fsymi-daguo%2Fha-proxy-addon)
 
-- 支持 Clash 和 Shadowrocket 订阅
-- 提供 HTTP 和 SOCKS 代理服务
-- 支持配置自动清理
-- 简单易用的配置界面
+## About
 
-## 安装方法
+This add-on provides a temporary proxy service for Home Assistant, supporting both Clash and Shadowrocket subscription addresses. It's mainly used for remote upgrades and maintenance.
 
-1. 在 Home Assistant 中添加自定义存储库：
-   ```
-   https://github.com/symi-daguo/ha-proxy-addon
-   ```
+## Features
 
-2. 安装 "代理服务" 插件
+- Direct import of Clash subscription
+- Automatic conversion of Shadowrocket subscription
+- HTTP proxy service (port 7890)
+- SOCKS proxy service (port 7891)
+- Configuration auto-cleanup
+- Simple and user-friendly interface
 
-## 可用插件
+## Installation
 
-### 代理服务
+1. Click the button above to add the repository to your Home Assistant instance.
+2. Navigate to the Add-on Store.
+3. Find the "Proxy Service" add-on and click install.
 
-临时代理服务，用于远程升级 Home Assistant，支持 Clash 和 Shadowrocket 订阅地址。
+## Documentation
 
-- [查看文档](addons/proxy_service/DOCS.md)
-- [配置说明](addons/proxy_service/README.md)
+Detailed documentation can be found in the [DOCS.md](addons/proxy_service/DOCS.md) file of this repository.

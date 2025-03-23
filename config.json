@@ -1,10 +1,12 @@
 {
-  "name": "HA Proxy Add-on Repository",
+  "name": "Home Assistant Proxy Add-ons",
   "url": "https://github.com/symi-daguo/ha-proxy-addon",
-  "maintainer": "symi-daguo",
-  "slug": "ha_proxy_addon",
+  "maintainer": "symi-daguo <303316404@qq.com>",
+  "slug": "ha_proxy_addon_repository",
   "version": "1.0.0",
-  "description": "Home Assistant代理服务插件仓库",
-  "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
-  "homeassistant": "2023.1.0"
+  "homeassistant": "2023.1.0b0",
+  "base": "latest",
+  "boot": "auto",
+  "stage": "stable",
+  "image": "ghcr.io/home-assistant/{arch}-addon-proxy"
 } 
