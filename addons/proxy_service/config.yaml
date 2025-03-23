@@ -1,7 +1,6 @@
 name: "Proxy Service"
 version: "1.0.0"
 slug: "proxy_service"
-init: false
 description: "Temporary proxy service for Home Assistant remote upgrade"
 url: "https://github.com/symi-daguo/ha-proxy-addon"
 arch:
@@ -10,11 +9,13 @@ arch:
   - aarch64
   - amd64
   - i386
+init: false
 startup: application
 boot: manual
-map:
-  - config:rw
-  - ssl:rw
+host_network: true
+privileged:
+  - NET_ADMIN
+  - NET_RAW
 ports:
   7890/tcp: 7890
   7891/tcp: 7891
@@ -29,16 +30,11 @@ schema:
   subscription_type: "list(clash|shadowrocket)"
   subscription_url: "str"
   clear_config: "bool"
-stage: stable
-panel_icon: "mdi:earth"
-panel_title: "Proxy Service"
-webui: "http://[HOST]:[PORT:7890]"
-host_network: true
-privileged:
-  - NET_ADMIN
-  - NET_RAW
 hassio_api: true
 hassio_role: default
 ingress: true
 ingress_port: 7890
+panel_icon: "mdi:earth"
+panel_title: "Proxy Service"
+webui: "http://[HOST]:[PORT:7890]"
 version_regex: !secret "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$" 
