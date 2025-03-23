@@ -1,22 +1,16 @@
-name: "Proxy Service"
 version: "1.0.0"
 slug: "proxy_service"
+name: "Proxy Service"
 description: "Temporary proxy service for Home Assistant remote upgrade"
 url: "https://github.com/symi-daguo/ha-proxy-addon"
-image: "ghcr.io/symi-daguo/{arch}-addon-proxy"
+init: false
 arch:
   - armhf
   - armv7
   - aarch64
   - amd64
   - i386
-init: false
-startup: application
-boot: manual
-host_network: true
-privileged:
-  - NET_ADMIN
-  - NET_RAW
+image: "ghcr.io/symi-daguo/{arch}-addon-proxy"
 map:
   - config:rw
   - ssl:rw
@@ -26,15 +20,10 @@ ports:
 ports_description:
   7890/tcp: "HTTP proxy port"
   7891/tcp: "SOCKS proxy port"
-options:
-  subscription_type: "clash"
-  subscription_url: ""
-  clear_config: true
-schema:
-  subscription_type: "list(clash|shadowrocket)"
-  subscription_url: "str"
-  clear_config: "bool"
-stage: stable
+host_network: true
+privileged:
+  - NET_ADMIN
+  - NET_RAW
 hassio_api: true
 hassio_role: default
 ingress: true

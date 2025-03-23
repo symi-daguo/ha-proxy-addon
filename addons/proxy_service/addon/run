@@ -1,0 +1,12 @@
+#!/usr/bin/with-contenv bashio
+
+# Get config values
+subscription_type=$(bashio::config 'subscription_type')
+subscription_url=$(bashio::config 'subscription_url')
+clear_config=$(bashio::config 'clear_config')
+
+# Start the proxy service
+exec /usr/bin/proxy_service \
+  --type "${subscription_type}" \
+  --url "${subscription_url}" \
+  --clear "${clear_config}" 

@@ -1,0 +1,20 @@
+{
+  "name": "Proxy Service",
+  "version": "1.0.0",
+  "slug": "proxy_service",
+  "description": "Temporary proxy service for Home Assistant remote upgrade",
+  "url": "https://github.com/symi-daguo/ha-proxy-addon",
+  "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
+  "startup": "application",
+  "boot": "manual",
+  "options": {
+    "subscription_type": "clash",
+    "subscription_url": "",
+    "clear_config": true
+  },
+  "schema": {
+    "subscription_type": "list(clash|shadowrocket)",
+    "subscription_url": "str",
+    "clear_config": "bool"
+  }
+} 
