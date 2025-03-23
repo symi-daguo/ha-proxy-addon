@@ -12,6 +12,15 @@ arch:
 init: false
 startup: application
 boot: manual
+stage: stable
+host_network: true
+apparmor: true
+privileged:
+  - NET_ADMIN
+  - NET_RAW
+map:
+  - config:rw
+  - ssl:rw
 ports:
   7890/tcp: 7890
   7890/udp: 7890
@@ -31,6 +40,9 @@ schema:
   subscription_url: "str"
   clear_config: "bool"
 hassio_api: true
+hassio_role: manager
 ingress: true
+ingress_port: 7890
 panel_icon: "mdi:earth"
-panel_title: "代理服务" 
+panel_title: "代理服务"
+webui: "http://[HOST]:[PORT:7890]" 
